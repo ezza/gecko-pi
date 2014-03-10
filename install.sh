@@ -13,21 +13,27 @@ exit 1
 fi
 piUser="$USER"
 
+logDir=$HOME/.gecko_pi/log
+bakDir=$HOME/.gecko_pi/bak
+tmpDir=$HOME/.gecko_pi/tmp
+
+mkdir -p $logDir
+mkdir -p $bakDir
+mkdir -p $tmpDir
+
 echo "Welcome to Gecko Pi setup!"
 
 if which chromium 2>&1 > /dev/null ; then
   echo "Chromium is already installed"
 else
-  # TODO silence apt output,unless errors
-  echo "Installing chromium browser"
-  sudo apt-get update -q 2>&1 > .apt.log
-  sudo apt-get install -y ttf-mscorefonts-installer chromium 2>&1 > .install.log
+  echo "Installing Chromium browser"
+  sudo apt-get update -q 2>&1 > $logDir/apt.log
+  sudo apt-get install -y ttf-mscorefonts-installer chromium 2>&1 > $logDir/install.log
 fi
 
-# /etc/rc.local
-rcDest=~/.bashrc
-rcBack=~/.bashrc.bak
-rcTmp=/tmp/bashrc
+rcDest=$HOME/.bashrc
+rcBack=$tmpDir/bashrc
+rcTmp=$tmpDir/bashrc
 
 # make backup
 if [[ ! -e $rcBack ]] ; then
@@ -53,8 +59,8 @@ mv -f $rcTmp $rcDest
 echo "Disabling screensaver"
 
 xAutostart=/etc/xdg/lxsession/LXDE/autostart
-xAutostartBackup=~/.autostart.bak
-xAutostartTmp=/tmp/autostart
+xAutostartBackup=$bakDir/autostart
+xAutostartTmp=$tmpDir/autostart
 
 if [[ ! -e $xAutostartBackup ]] ; then
   cp $xAutostart $xAutostartBackup
@@ -70,7 +76,7 @@ fi
 
 echo "Setting up browser autostart"
 
-autoStartConfigPath="/home/$piUser/.config/lxsession/LXDE"
+autoStartConfigPath="$HOME/.config/lxsession/LXDE"
 autoStartFile=$autoStartConfigPath/autostart
 
 mkdir -p $autoStartConfigPath
