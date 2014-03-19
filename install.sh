@@ -31,6 +31,14 @@ else
   sudo apt-get install -y ttf-mscorefonts-installer chromium 2>&1 > $logDir/install.log
 fi
 
+# make sure xset is installed
+if which xset 2>&1 > /dev/null; then
+  echo "xset is installed"
+else
+  echo "Installing x11 utilities"
+  sudo apt-get install -y x11-xserver-utils 2>&1 >> $logDir/install.log
+fi
+
 rcDest=$HOME/.bashrc
 rcBack=$tmpDir/bashrc
 rcTmp=$tmpDir/bashrc
