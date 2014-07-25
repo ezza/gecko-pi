@@ -92,7 +92,7 @@ mkdir -p $autoStartConfigPath
 echo "xset s noblank " > $autoStartFile
 echo "xset s off " >> $autoStartFile
 echo "xset -dpms" >> $autoStartFile
-echo "chromium --kiosk --incognito --disable-infobars --disable-translate $dashUrl" >> $autoStartFile
+echo "chromium --kiosk --incognito --disable-infobars --disable-translate --enable-offline-auto-reload-visible-only $dashUrl" >> $autoStartFile
 
 echo "All good!"
 echo "Restarting your Pi!"
