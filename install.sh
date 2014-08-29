@@ -39,6 +39,14 @@ else
   sudo apt-get install -y x11-xserver-utils 2>&1 >> $logDir/install.log
 fi
 
+if which unclutter 2>&1 >/dev/null; then
+  echo "unclutter is installed"
+else
+  echo "Installing unclutter"
+  sudo apt-get install unclutter
+fi
+
+
 rcDest=$HOME/.bashrc
 rcBack=$tmpDir/bashrc
 rcTmp=$tmpDir/bashrc
@@ -58,7 +66,7 @@ if [[ -n "\$DISPLAY" ]] ; then
   xset s off
   xset -dpms
   xset s noblank
-
+  unclutter -display \$DISPLAY -noevents -grab
 fi
 EOF
 
