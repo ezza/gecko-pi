@@ -52,6 +52,9 @@ echo "Disabling screen power saving"
 
 cat <<EOF > $rcTmp
 #!/bin/sh -e
+
+source $rcBack
+
 if [[ -n "\$DISPLAY" ]] ; then
   startx
   sleep 5
