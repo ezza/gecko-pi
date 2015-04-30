@@ -13,7 +13,7 @@ Make sure your Pi is online. Open a terminal emulator, and run these two command
 ```bash
 export DASHBOARD_URL=https://example.geckoboard.com/dashboard/AAABBBCCDDD 
 
-curl -L https://raw.github.com/geckoboard/gecko-pi/master/install.sh | bash
+curl -L https://raw.github.com/ezza/gecko-pi/master/install.sh  | bash
 ```
 
 Done!
