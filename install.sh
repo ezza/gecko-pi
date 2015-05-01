@@ -31,6 +31,9 @@ else
   sudo apt-get install -y ttf-mscorefonts-installer chromium 2>&1 > $logDir/install.log
 fi
 
+echo "Symlinking gnueabihf for chromium command line"
+sudo ln -s /usr/lib/arm-linux-gnueabihf/nss/ /usr/lib/nss
+
 # make sure xset is installed
 if which xset 2>&1 > /dev/null; then
   echo "xset is installed"
@@ -85,7 +88,24 @@ if grep xscreensaver $xAutostart 2>&1 > /dev/null ; then
   sudo mv $xAutostartTmp $xAutostart
 fi
 
-echo "Setting up browser autostart"
+echo "Setting resolution to 1080p"
+bootConfig=/boot/config.txt
+bootConfigBackup=$bakDir/config.txt
+bootConfigTmp=$tmpDir/config.txt
+
+if [[ ! -e $bootConfigBackup ]] ; then
+  cp $bootConfig $bootConfigBackup
+fi
+
+echo "hdmi_group=1" >> bootConfigTmp
+echo "hdmi_mode=16" >> bootConfigTmp
+echo "hdmi_force_hotplug=1" >> bootConfigTmp
+echo "config_hdmi_boost=4" >> bootConfigTmp
+echo "disable_overscan=1" >> bootConfigTmp
+
+sudo mv $bootConfigTmp $bootConfig
+
+echo "Configuring lxsession"
 
 autoStartConfigPath="$HOME/.config/lxsession/LXDE"
 autoStartFile=$autoStartConfigPath/autostart
@@ -95,7 +115,16 @@ mkdir -p $autoStartConfigPath
 echo "xset s noblank " > $autoStartFile
 echo "xset s off " >> $autoStartFile
 echo "xset -dpms" >> $autoStartFile
-echo "chromium --kiosk --incognito --disable-infobars --disable-translate --enable-offline-auto-reload-visible-only $dashUrl" >> $autoStartFile
+
+echo "Enabling brower autostart"
+
+kioskFile="$HOME/ensure-kiosk.sh"
+
+echo "#!/bin/bash" >> $kioskFile
+echo "ps --no-headers -C chromium || DISPLAY=:0 chromium --kiosk --incognito --disable-infobars --disable-translate --enable-offline-auto-reload-visible-only $dashUrl" >> $kioskFile
+
+cronCmd = "* * * * * $kioskFile"
+(crontab -u $USER -l; echo $cronCmd ) | crontab -u $USER -
 
 echo "All good!"
 echo "Restarting your Pi!"
