@@ -8,7 +8,7 @@ if [[ -z "$dashUrl" ]] ; then
 echo "Please set dashboard url like so:"
 echo "  export DASHBOARD_URL='https://example.geckoboard.com/dashboards/someid'"
 echo "and re-run this script with:"
-echo "  curl https://github.com/geckoboard/gecko-pi/blob/master/install.sh | bash"
+echo "  curl https://github.com/ezza/gecko-pi/blob/master/install.sh | bash"
 exit 1
 fi
 piUser="$USER"
