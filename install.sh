@@ -69,7 +69,7 @@ mv -f $rcTmp $rcDest
 
 echo "Disabling screensaver"
 
-xAutostart=/etc/xdg/lxsession/LXDE/autostart
+xAutostart=/etc/xdg/lxsession/LXDE-pi/autostart
 xAutostartBackup=$bakDir/autostart
 xAutostartTmp=$tmpDir/autostart
 
