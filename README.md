@@ -3,7 +3,7 @@ gecko-pi
 
 Easily set up a fresh new Raspberry Pi for use with Geckoboard.
 
-For more information check out our [blog post](http://www.geckoboard.com/blog/geckoboard-and-raspberry-pi).
+For more information check out this [blog post](http://www.geckoboard.com/blog/geckoboard-and-raspberry-pi).
 
 how to
 ======
